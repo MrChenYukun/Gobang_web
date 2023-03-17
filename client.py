@@ -21,9 +21,9 @@ pygame.display.set_caption('五子棋')
 pygame.init()
 
 #图片导入
-img_board=pygame.image.load('img/chess_board2.png')
-img_bchess=pygame.image.load('img/black_chess.jpg')
-img_wchess=pygame.image.load('img/white_chess.jpg')
+img_board=pygame.image.load('img/chess_board.png')
+img_bchess=pygame.image.load('img/black_chess.png')
+img_wchess=pygame.image.load('img/white_chess.png')
 
 #颜色
 white=(255,255,255)

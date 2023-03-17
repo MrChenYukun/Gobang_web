@@ -1,19 +1,12 @@
 # -*- coding: utf-8 -*-
-"""
-Created on Tue Jun  8 14:03:09 2021
-
-@author: Administrator
-"""
 import pygame
 import sys
 from pygame.locals import *
 from collections import Counter
 from socket import *
-from time import ctime
 import json
 import select
 import socket
-import time
 
 #界面初始化
 screen=pygame.display.set_mode((400,450))

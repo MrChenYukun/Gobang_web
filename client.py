@@ -3,14 +3,13 @@ import pygame
 import sys
 from pygame.locals import *
 from collections import Counter
-from socket import *
 import json
 import select
 import socket
 
 #界面初始化
-screen=pygame.display.set_mode((400,450))
-pygame.display.set_caption('五子棋')
+screen=pygame.display.set_mode((600,650))
+pygame.display.set_caption('五子棋 Player 2')
 pygame.init()
 
 #图片导入
@@ -30,19 +29,19 @@ chess_board=[[]]
 def set_chess_board():
     x,y=0,0
     while True:
-        if x==400:
+        if x==600:
             x=0
             y+=40
-            if y<400:
+            if y<600:
                 chess_board.append([])
-        if y==400:
+        if y==600:
             break
         chess_board[-1].append([x,y])
         x+=40
 set_chess_board()
 
 #棋盘格子是否落子
-chess_exist=[[0 for i in range(10)]for j in range(10)]
+chess_exist=[[0 for i in range(15)]for j in range(15)]
 #黑白棋子初始化
 black_chess,white_chess=[],[]
 #棋子类型
@@ -172,12 +171,16 @@ inputs=[tcpCliSock]
 
 draw_board()
 settable=0
+roundcount=0
 while True:
     rs,ws,es=select.select(inputs,[],[],0)
     for r in rs:
         if r is tcpCliSock:
             data,addr = r.recvfrom(BUFSIZE)
-            draw_text('你的回合',200,420,15)
+            roundcount=roundcount+1
+            score_text='回合数：' + str(roundcount)
+            draw_text(score_text,300,640,15)
+            draw_text('你的回合',300,620,15)
             data=json.loads(data)
             settable=1
             black_chess.append(data)
@@ -190,21 +193,24 @@ while True:
             sys.exit()
         if settable==1:
             if set_chess()==1:
-                draw_text('对手回合',200,420,15)
+                roundcount=roundcount+1
+                score_text='回合数：' + str(roundcount)
+                draw_text(score_text,300,640,15)
+                draw_text('对手回合',300,620,15)
                 settable=0
                 msg1=json.dumps(msg)
                 tcpCliSock.sendto(msg1.encode(),ADDR)
                 msg=[]
     draw_chess()
     if gameover()==1:
-        draw_text('你赢了！',200,420,15)
+        draw_text('你赢了！',300,620,15)
         while True:
             for event in pygame.event.get():
                 if event.type==QUIT:
                     pygame.quit()
                     sys.exit()
     elif gameover()==0:
-        draw_text('你输了！',200,420,15)
+        draw_text('你输了！',300,620,15)
         while True:
             for event in pygame.event.get():
                 if event.type==QUIT:
